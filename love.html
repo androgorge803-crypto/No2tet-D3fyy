@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>💕 بحبك يكارين</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      min-height: 100vh;
+      background: #0d0014;
+      color: #f0e6ff;
+      overflow-x: hidden;
+    }
+
+    .stars {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; z-index: 0;
+    }
+    .star {
+      position: absolute; background: white;
+      border-radius: 50%; animation: twinkle 3s infinite;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; } 50% { opacity: 1; }
+    }
+    .hearts-bg {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; z-index: 0;
+    }
+    .float-heart {
+      position: absolute; font-size: 20px;
+      opacity: 0.15; animation: floatUp 8s infinite;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10%  { opacity: 0.15; }
+      90%  { opacity: 0.1; }
+      100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+    }
+
+    /* ========== LOCK SCREEN ========== */
+    #lockScreen {
+      position: relative; z-index: 10;
+      min-height: 100vh;
+      display: flex; align-items: center;
+      justify-content: center; flex-direction: column;
+      gap: 24px; padding: 40px 20px;
+    }
+    .lock-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,150,200,0.3);
+      border-radius: 24px; padding: 48px 40px;
+      text-align: center; max-width: 380px; width: 100%;
+      backdrop-filter: blur(10px);
+    }
+    .lock-icon {
+      font-size: 64px; margin-bottom: 16px;
+      animation: pulse 2s ease-in-out infinite; display: block;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); }
+    }
+    .lock-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px; color: #ffadd2;
+      margin-bottom: 8px; font-style: italic;
+    }
+    .lock-subtitle {
+      font-size: 14px; color: rgba(255,255,255,0.5);
+      margin-bottom: 32px; line-height: 1.7;
+    }
+    .password-input {
+      width: 100%; padding: 14px 20px;
+      border-radius: 50px; border: 1px solid rgba(255,150,200,0.4);
+      background: rgba(255,255,255,0.08); color: #f0e6ff;
+      font-size: 18px; text-align: center; letter-spacing: 6px;
+      outline: none; transition: all 0.3s; font-family: monospace;
+    }
+    .password-input::placeholder {
+      letter-spacing: 2px; font-size: 13px; color: rgba(255,255,255,0.3);
+    }
+    .password-input:focus {
+      border-color: rgba(255,150,200,0.8);
+      background: rgba(255,255,255,0.12);
+      box-shadow: 0 0 20px rgba(255,100,180,0.3);
+    }
+    .unlock-btn {
+      width: 100%; padding: 14px; border-radius: 50px; border: none;
+      background: linear-gradient(135deg, #e91e8c, #9b27af);
+      color: white; font-size: 16px; font-family: 'Lato', sans-serif;
+      cursor: pointer; margin-top: 16px; transition: all 0.3s; letter-spacing: 1px;
+    }
+    .unlock-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(233,30,140,0.4);
+    }
+    .error-msg {
+      color: #ff6b9d; font-size: 13px;
+      margin-top: 10px; min-height: 20px;
+    }
+    .hint-text {
+      font-size: 12px; color: rgba(255,255,255,0.3); margin-top: 20px;
+    }
+
+    /* ========== MAIN SITE ========== */
+    #mainSite {
+      display: none; position: relative; z-index: 10; min-height: 100vh;
+    }
+    .nav {
+      padding: 20px 30px; display: flex;
+      justify-content: space-between; align-items: center;
+      border-bottom: 1px solid rgba(255,150,200,0.15);
+      flex-wrap: wrap; gap: 12px;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px; color: #ffadd2; font-style: italic;
+    }
+    .nav-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tab-btn {
+      padding: 8px 16px; border-radius: 20px;
+      border: 1px solid rgba(255,150,200,0.3);
+      background: transparent; color: rgba(255,255,255,0.6);
+      font-size: 13px; cursor: pointer; transition: all 0.3s;
+      font-family: 'Lato', sans-serif;
+    }
+    .tab-btn.active, .tab-btn:hover {
+      background: rgba(255,150,200,0.2);
+      color: #ffadd2; border-color: rgba(255,150,200,0.6);
+    }
+
+    .page { display: none; padding: 30px; max-width: 900px; margin: 0 auto; }
+    .page.active { display: block; }
+
+    /* ========== HOME ========== */
+    .hero { text-align: center; padding: 40px 20px; }
+    .hero-heart {
+      font-size: 80px; animation: heartbeat 1.5s ease-in-out infinite;
+      display: block; margin-bottom: 16px;
+    }
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      14% { transform: scale(1.15); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.1); }
+      56% { transform: scale(1); }
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px; color: #ffadd2;
+      font-style: italic; margin-bottom: 12px;
+    }
+    .hero-subtitle {
+      color: rgba(255,255,255,0.5); font-size: 15px;
+      font-weight: 300; letter-spacing: 1px; margin-bottom: 40px;
+    }
+
+    /* صورة الكبل في الهوم */
+    .couple-photo-wrap {
+      max-width: 340px; margin: 0 auto 32px;
+      border-radius: 20px; overflow: hidden;
+      border: 2px solid rgba(255,150,200,0.3);
+      box-shadow: 0 0 40px rgba(255,100,180,0.15);
+    }
+    .couple-photo-wrap img {
+      width: 100%; height: 220px; object-fit: cover; display: block;
+    }
+    .couple-photo-placeholder {
+      width: 100%; height: 220px;
+      background: rgba(255,255,255,0.04);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      color: rgba(255,150,200,0.4); font-size: 14px; gap: 8px;
+    }
+    .couple-photo-placeholder span { font-size: 36px; }
+
+    .quote-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,150,200,0.2);
+      border-radius: 20px; padding: 32px;
+      max-width: 500px; margin: 0 auto 40px; position: relative;
+    }
+    .quote-mark {
+      font-size: 60px; color: rgba(255,100,180,0.3);
+      font-family: 'Playfair Display', serif;
+      line-height: 1; position: absolute; top: 10px; left: 20px;
+    }
+    .quote-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px; font-style: italic; color: #f0e6ff;
+      line-height: 1.7; padding-top: 20px; text-align: center;
+    }
+    .quote-author {
+      font-size: 12px; color: rgba(255,150,200,0.6);
+      text-align: center; margin-top: 12px;
+      letter-spacing: 2px; text-transform: uppercase;
+    }
+    .love-counter {
+      display: flex; justify-content: center;
+      gap: 20px; flex-wrap: wrap; margin-top: 20px;
+    }
+    .counter-item {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,150,200,0.2);
+      border-radius: 16px; padding: 20px 28px;
+      text-align: center; min-width: 120px;
+    }
+    .counter-num {
+      font-size: 28px; font-weight: 700;
+      color: #ff6baf; display: block;
+    }
+    .counter-label {
+      font-size: 11px; color: rgba(255,255,255,0.4);
+      letter-spacing: 1px; text-transform: uppercase; margin-top: 4px;
+    }
+    .set-date-btn {
+      margin-top: 16px; background: transparent;
+      border: 1px dashed rgba(255,150,200,0.3);
+      color: rgba(255,150,200,0.6); padding: 8px 20px;
+      border-radius: 20px; font-size: 12px; cursor: pointer;
+      font-family: 'Lato', sans-serif;
+    }
+
+    /* ========== MEMORIES ========== */
+    .page-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px; color: #ffadd2;
+      font-style: italic; margin-bottom: 24px; text-align: center;
+    }
+    .add-memory-btn {
+      display: block; margin: 0 auto 24px;
+      padding: 12px 28px; border-radius: 50px;
+      border: 1px dashed rgba(255,150,200,0.5);
+      background: transparent; color: rgba(255,150,200,0.8);
+      font-size: 14px; cursor: pointer; transition: all 0.3s;
+      font-family: 'Lato', sans-serif;
+    }
+    .add-memory-btn:hover {
+      background: rgba(255,150,200,0.1);
+      border-color: rgba(255,150,200,0.8);
+    }
+    .add-form {
+      display: none; background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,150,200,0.2);
+      border-radius: 20px; padding: 28px; margin-bottom: 24px;
+    }
+    .add-form.visible { display: block; }
+    .form-row { margin-bottom: 16px; }
+    .form-label {
+      display: block; font-size: 12px;
+      color: rgba(255,150,200,0.7);
+      letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px;
+    }
+    .form-input, .form-textarea {
+      width: 100%; padding: 12px 16px; border-radius: 12px;
+      border: 1px solid rgba(255,150,200,0.25);
+      background: rgba(255,255,255,0.06); color: #f0e6ff;
+      font-size: 14px; font-family: 'Lato', sans-serif;
+      outline: none; transition: all 0.3s;
+    }
+    .form-input:focus, .form-textarea:focus {
+      border-color: rgba(255,150,200,0.6);
+      background: rgba(255,255,255,0.09);
+    }
+    .form-textarea { height: 80px; resize: vertical; }
+    .emoji-picker { display: flex; gap: 8px; flex-wrap: wrap; }
+    .emoji-opt {
+      font-size: 24px; padding: 6px; border-radius: 8px;
+      cursor: pointer; border: 2px solid transparent; transition: all 0.2s;
+    }
+    .emoji-opt.selected, .emoji-opt:hover {
+      border-color: rgba(255,150,200,0.6);
+      background: rgba(255,150,200,0.1);
+    }
+    .form-actions { display: flex; gap: 12px; margin-top: 16px; }
+    .save-btn {
+      flex: 1; padding: 12px; border-radius: 12px; border: none;
+      background: linear-gradient(135deg, #e91e8c, #9b27af);
+      color: white; font-size: 14px; cursor: pointer;
+      font-family: 'Lato', sans-serif; transition: all 0.3s;
+    }
+    .save-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .cancel-btn {
+      padding: 12px 20px; border-radius: 12px;
+      border: 1px solid rgba(255,150,200,0.3);
+      background: transparent; color: rgba(255,255,255,0.5);
+      font-size: 14px; cursor: pointer; font-family: 'Lato', sans-serif;
+    }
+
+    /* رفع صورة للذكرى */
+    .photo-upload-label {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 16px; border-radius: 12px;
+      border: 1px dashed rgba(255,150,200,0.4);
+      cursor: pointer; color: rgba(255,150,200,0.7);
+      font-size: 13px; transition: all 0.3s;
+    }
+    .photo-upload-label:hover {
+      border-color: rgba(255,150,200,0.7);
+      background: rgba(255,150,200,0.05);
+    }
+    .photo-upload-label input { display: none; }
+    #photoPreview {
+      margin-top: 10px; border-radius: 12px; overflow: hidden;
+      display: none; max-height: 160px;
+    }
+    #photoPreview img { width: 100%; max-height: 160px; object-fit: cover; }
+
+    .memories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .memory-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,150,200,0.2);
+      border-radius: 16px; overflow: hidden; transition: all 0.3s;
+      position: relative;
+    }
+    .memory-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255,150,200,0.5);
+      box-shadow: 0 8px 30px rgba(255,100,180,0.15);
+    }
+    .memory-photo { width: 100%; height: 130px; object-fit: cover; display: block; cursor: pointer; }
+    .memory-body { padding: 16px; }
+    .memory-emoji { font-size: 28px; margin-bottom: 10px; }
+    .memory-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px; color: #ffadd2; margin-bottom: 6px; font-style: italic;
+    }
+    .memory-date { font-size: 11px; color: rgba(255,255,255,0.35); letter-spacing: 1px; }
+    .memory-text {
+      font-size: 13px; color: rgba(255,255,255,0.55);
+      margin-top: 8px; line-height: 1.5;
+    }
+    .memory-delete {
+      position: absolute; top: 10px; left: 10px;
+      background: rgba(0,0,0,0.5); border: none;
+      color: rgba(255,100,150,0.7); font-size: 14px;
+      cursor: pointer; border-radius: 50%; width: 26px; height: 26px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .memory-delete:hover { color: #ff6b9d; background: rgba(0,0,0,0.7); }
+
+    /* ========== TIMELINE ========== */
+    .timeline { position: relative; padding-right: 30px; }
+    .timeline::before {
+      content: ''; position: absolute; right: 10px; top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, rgba(255,150,200,0.4), transparent);
+    }
+    .timeline-item { position: relative; margin-bottom: 32px; padding-right: 20px; }
+    .timeline-dot {
+      position: absolute; right: -25px; top: 8px;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: #e91e8c; border: 2px solid rgba(255,150,200,0.5);
+      box-shadow: 0 0 12px rgba(233,30,140,0.5);
+    }
+    .timeline-date {
+      font-size: 11px; color: rgba(255,150,200,0.6);
+      letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;
+    }
+    .timeline-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,150,200,0.15);
+      border-radius: 16px; overflow: hidden;
+    }
+    .timeline-photo { width: 100%; max-height: 180px; object-fit: cover; display: block; }
+    .timeline-body { padding: 16px; }
+    .timeline-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px; color: #ffadd2; font-style: italic; margin-bottom: 8px;
+    }
+    .timeline-text { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+    /* ========== IDEAS ========== */
+    .ideas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .idea-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,150,200,0.15);
+      border-radius: 16px; padding: 20px; transition: all 0.3s;
+    }
+    .idea-card:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(255,150,200,0.35); transform: translateY(-3px);
+    }
+    .idea-icon { font-size: 28px; margin-bottom: 10px; }
+    .idea-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px; color: #ffadd2; margin-bottom: 6px; font-style: italic;
+    }
+    .idea-text { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.5; }
+
+    /* ========== GALLERY ========== */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+    }
+    .gallery-item {
+      border-radius: 14px; overflow: hidden;
+      border: 1px solid rgba(255,150,200,0.2);
+      position: relative; aspect-ratio: 1; cursor: pointer;
+      transition: all 0.3s;
+    }
+    .gallery-item:hover {
+      border-color: rgba(255,150,200,0.5);
+      transform: scale(1.03);
+    }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+    .gallery-delete {
+      position: absolute; top: 6px; left: 6px;
+      background: rgba(0,0,0,0.6); border: none;
+      color: rgba(255,100,150,0.8); font-size: 13px;
+      cursor: pointer; border-radius: 50%; width: 24px; height: 24px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .gallery-upload-btn {
+      display: block; margin: 0 auto 24px;
+      padding: 12px 28px; border-radius: 50px;
+      border: 1px dashed rgba(255,150,200,0.5);
+      background: transparent; color: rgba(255,150,200,0.8);
+      font-size: 14px; cursor: pointer; transition: all 0.3s;
+      font-family: 'Lato', sans-serif;
+    }
+    .gallery-upload-btn:hover {
+      background: rgba(255,150,200,0.1);
+    }
+
+    /* lightbox */
+    .lightbox {
+      display: none; position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; background: rgba(0,0,0,0.9);
+      z-index: 500; align-items: center; justify-content: center; padding: 20px;
+    }
+    .lightbox.visible { display: flex; }
+    .lightbox img { max-width: 100%; max-height: 90vh; border-radius: 12px; }
+    .lightbox-close {
+      position: absolute; top: 20px; left: 20px;
+      background: transparent; border: none; color: white;
+      font-size: 28px; cursor: pointer;
+    }
+
+    /* lock button */
+    .lock-again {
+      position: fixed; bottom: 20px; left: 20px; z-index: 100;
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 1px solid rgba(255,150,200,0.3);
+      background: rgba(0,0,0,0.5); color: rgba(255,150,200,0.7);
+      font-size: 18px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s;
+    }
+    .lock-again:hover {
+      background: rgba(255,150,200,0.15);
+      border-color: rgba(255,150,200,0.6);
+    }
+
+    .toast {
+      position: fixed; bottom: 30px; right: 50%;
+      transform: translateX(50%) translateY(20px);
+      background: rgba(233,30,140,0.9); color: white;
+      padding: 12px 24px; border-radius: 50px;
+      font-size: 13px; opacity: 0; transition: all 0.4s;
+      z-index: 200; pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateX(50%) translateY(0); }
+
+    @media (max-width: 500px) {
+      .nav { padding: 16px; }
+      .tab-btn { padding: 6px 10px; font-size: 12px; }
+      .hero-title { font-size: 26px; }
+      .ideas-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="stars" id="stars"></div>
+  <div class="hearts-bg" id="heartsContainer"></div>
+
+  <!-- ======== LOCK SCREEN ======== -->
+  <div id="lockScreen">
+    <div class="lock-card">
+      <span class="lock-icon">🔐</span>
+      <h1 class="lock-title">اكتبي يبقرة</h1>
+      <p class="lock-subtitle">اشطر كتكوتة اوعي تكتبيه غلط</p>
+      <input type="password" class="password-input" id="passInput" placeholder="الباسورد" maxlength="20" />
+      <button class="unlock-btn" onclick="checkPassword()">✨ دوسي براحة</button>
+      <p class="error-msg" id="errorMsg"></p>
+      <p class="hint-text">❤️</p>
+    </div>
+  </div>
+
+  <!-- ======== MAIN SITE ======== -->
+  <div id="mainSite">
+    <nav class="nav">
+      <div class="nav-logo">💕 N(o<sub>2</sub>)tet Da3fy</div>
+      <div class="nav-tabs">
+        <button class="tab-btn active" onclick="showPage('home', this)">الرئيسية</button>
+        <button class="tab-btn" onclick="showPage('memories', this)">ذكرياتنا</button>
+        <button class="tab-btn" onclick="showPage('timeline', this)">قصتنا</button>
+        <button class="tab-btn" onclick="showPage('gallery', this)">صورنا</button>
+        <button class="tab-btn" onclick="showPage('ideas', this)">أفكار</button>
+      </div>
+    </nav>
+
+    <!-- HOME -->
+    <div class="page active" id="page-home">
+      <div class="hero">
+        <span class="hero-heart">❤️</span>
+        <h1 class="hero-title">أنتِ كل شيء في حياتي</h1>
+        <p class="hero-subtitle">الموقع ده معمول بكل حب هيكون عليه كل ذكرياتنا ومش هيتقفل خالص!<br>Te Amo Mi Amor❤️</p>
+        <div class="quote-card">
+          <div class="quote-mark">"</div>
+          <p class="quote-text" >مهما يحصل بينا هفضل احبك</p>
+          <p class="quote-author" >ربنا يحفظك ليا وينسيكي كل حاجة بتزعلك</p>
+        </div>
+
+        <div class="love-counter">
+          <div class="counter-item">
+            <span class="counter-num" id="daysTogether">0</span>
+            <span class="counter-label">من ساعت معرفنا بعض<br>صفقة العمر<br>∞</span>
+          </div>
+          <div class="counter-item">
+            <span class="counter-num" id="memoriesCount">0</span>
+            <span class="counter-label">ذكرى مسجلة</span>
+          </div>
+          <div class="counter-item">
+            <span class="counter-num">∞</span>
+            <span class="counter-label">هفضل احبك لغايت<br>👼🖤</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEMORIES -->
+    <div class="page" id="page-memories">
+      <h2 class="page-title">💝 ذكرياتنا الحلوة</h2>
+      <div class="memories-grid">
+               <!-- الكروت -->
+        <div class="memory-card">
+          <img class="memory-photo" src="" onclick="openLightbox(this.src)" />
+          <div class="memory-body">
+            <div class="memory-emoji">🌙</div>
+            <div class="memory-title">راشييي</div>
+            <div class="memory-date">2025-09-30</div>
+            <div class="memory-text">يوم من أجمل الأيام اللي عشناها مع بعض، كل لحظة فيه كانت حلوة بوجودك...</div>
+          </div>
+        </div>
+
+        <div class="memory-card">
+          <img class="memory-photo" src="" onclick="openLightbox(this.src)" />
+          <div class="memory-body">
+            <div class="memory-emoji">🌹</div>
+            <div class="memory-title">عنوان الذكرى</div>
+            <div class="memory-date">2024-01-01</div>
+            <div class="memory-text">وصف الذكرى اكتبه هنا...</div>
+          </div>
+        </div>
+
+        <div class="memory-card">
+          <video class="memory-photo" controls><source src=""></video>
+          <div class="memory-body">
+            <div class="memory-emoji">🌹</div>
+            <div class="memory-title">عنوان الذكرى</div>
+            <div class="memory-date">2024-01-01</div>
+            <div class="memory-text">وصف الذكرى اكتبه هنا...</div>
+          </div>
+        </div>
+
+        <div class="memory-card">
+          <video class="memory-photo" controls><source src=""></video>
+          <div class="memory-body">
+            <div class="memory-emoji">🌹</div>
+            <div class="memory-title">عنوان الذكرى</div>
+            <div class="memory-date">2024-01-01</div>
+            <div class="memory-text">وصف الذكرى اكتبه هنا...</div>
+          </div>
+        </div>
+
+         <div class="memory-card">
+          <img class="memory-photo" src="" onclick="openLightbox(this.src)" />
+          <div class="memory-body">
+            <div class="memory-emoji">🌙</div>
+            <div class="memory-title">يوم خروجنا</div>
+            <div class="memory-date">2026-06-26</div>
+            <div class="memory-text">يوم من أجمل الأيام اللي عشناها مع بعض، كل لحظة فيه كانت حلوة بوجودك...</div>
+          </div>
+        </div>
+
+        <div class="memory-card">
+          <img class="memory-photo" src="" onclick="openLightbox(this.src)" />
+          <div class="memory-body">
+            <div class="memory-emoji">🌹</div>
+            <div class="memory-title">عنوان الذكرى</div>
+            <div class="memory-date">2024-01-01</div>
+            <div class="memory-text">وصف الذكرى اكتبه هنا...</div>
+          </div>
+        </div>
+        <div class="memory-card">
+          <img class="memory-photo" src="" onclick="openLightbox(this.src)" />
+          <div class="memory-body">
+            <div class="memory-emoji">🌙</div>
+            <div class="memory-title">يوم خروجنا</div>
+            <div class="memory-date">2026-06-26</div>
+            <div class="memory-text">يوم من أجمل الأيام اللي عشناها مع بعض، كل لحظة فيه كانت حلوة بوجودك...</div>
+          </div>
+        </div>
+
+        <div class="memory-card">
+          <img class="memory-photo" src="" onclick="openLightbox(this.src)" />
+          <div class="memory-body">
+            <div class="memory-emoji">🌹</div>
+            <div class="memory-title">عنوان الذكرى</div>
+            <div class="memory-date">2024-01-01</div>
+            <div class="memory-text">وصف الذكرى اكتبه هنا...</div>
+          </div>
+        </div>
+        <div class="memory-card">
+          <img class="memory-photo" src="bmw.png" onclick="openLightbox(this.src)" />
+          <div class="memory-body">
+            <div class="memory-emoji">🌙</div>
+            <div class="memory-title">يوم خروجنا</div>
+            <div class="memory-date">2026-06-26</div>
+            <div class="memory-text">يوم من أجمل الأيام اللي عشناها مع بعض، كل لحظة فيه كانت حلوة بوجودك...</div>
+          </div>
+        </div>
+
+        <div class="memory-card">
+          <img class="memory-photo" src="bmw.png" onclick="openLightbox(this.src)" />
+          <div class="memory-body">
+            <div class="memory-emoji">🌹</div>
+            <div class="memory-title">عنوان الذكرى</div>
+            <div class="memory-date">2024-01-01</div>
+            <div class="memory-text">وصف الذكرى اكتبه هنا...</div>
+          </div>
+        </div>
+        <div class="memory-card">
+          <img class="memory-photo" src="bmw.png" onclick="openLightbox(this.src)" />
+          <div class="memory-body">
+            <div class="memory-emoji">🌙</div>
+            <div class="memory-title">يوم خروجنا</div>
+            <div class="memory-date">2026-06-26</div>
+            <div class="memory-text">يوم من أجمل الأيام اللي عشناها مع بعض، كل لحظة فيه كانت حلوة بوجودك...</div>
+          </div>
+        </div>
+
+        <div class="memory-card">
+          <img class="memory-photo" src="bmw.png" onclick="openLightbox(this.src)" />
+          <div class="memory-body">
+            <div class="memory-emoji">🌹</div>
+            <div class="memory-title">عنوان الذكرى</div>
+            <div class="memory-date">2024-01-01</div>
+            <div class="memory-text">وصف الذكرى اكتبه هنا...</div>
+          </div>
+        </div>
+        <div class="memory-card">
+          <img class="memory-photo" src="bmw.png" onclick="openLightbox(this.src)" />
+          <div class="memory-body">
+            <div class="memory-emoji">🌙</div>
+            <div class="memory-title">يوم خروجنا</div>
+            <div class="memory-date">2026-06-26</div>
+            <div class="memory-text">يوم من أجمل الأيام اللي عشناها مع بعض، كل لحظة فيه كانت حلوة بوجودك...</div>
+          </div>
+        </div>
+
+        <div class="memory-card">
+          <img class="memory-photo" src="bmw.png" onclick="openLightbox(this.src)" />
+          <div class="memory-body">
+            <div class="memory-emoji">🌹</div>
+            <div class="memory-title">عنوان الذكرى</div>
+            <div class="memory-date">2024-01-01</div>
+            <div class="memory-text">وصف الذكرى اكتبه هنا...</div>
+          </div>
+        </div>
+        <div class="memory-card">
+          <img class="memory-photo" src="bmw.png" onclick="openLightbox(this.src)" />
+          <div class="memory-body">
+            <div class="memory-emoji">🌹</div>
+            <div class="memory-title">عنوان الذكرى</div>
+            <div class="memory-date">2024-01-01</div>
+            <div class="memory-text">وصف الذكرى اكتبه هنا...</div>
+          </div>
+        </div>
+
+       
+      </div>
+    </div>
+
+    <!-- TIMELINE -->
+    <div class="page" id="page-timeline">
+      <h2 class="page-title">📖 قصة حبنا</h2>
+      <div class="timeline" id="timelineEl"></div>
+    </div>
+
+      <!-- GALLERY -->
+    <div class="page" id="page-gallery">
+      <h2 class="page-title">📸 صورنا مع بعض</h2>
+      <!-- ============================================ -->
+      <!-- ✏️ الجاليري — غيّر اسم الصورة في src=""    -->
+      <!-- ============================================ -->
+      <div class="gallery-grid">
+ 
+        <!-- صورة 1 -->
+        <div class="gallery-item">
+          <img src="صورة (1).jpg" onclick="openLightbox(this.src)" />
+        </div>
+ 
+        <!-- صورة 2 -->
+        <div class="gallery-item">
+          <img src="صورة (2).jpg" onclick="openLightbox(this.src)" />
+        </div>
+ 
+        <!-- صورة 3 -->
+        <div class="gallery-item">
+          <img src="" onclick="openLightbox(this.src)" />
+        </div>
+ 
+        <!-- صورة 4 -->
+        <div class="gallery-item">
+          <img src="photo4.jpg" onclick="openLightbox(this.src)" />
+        </div>
+ 
+        <!-- صورة 5 -->
+        <div class="gallery-item">
+          <img src="photo5.jpg" onclick="openLightbox(this.src)" />
+        </div>
+ 
+        <!-- صورة 6 -->
+        <div class="gallery-item">
+          <img src="photo6.jpg" onclick="openLightbox(this.src)" />
+        </div>
+ 
+        <!-- صورة 7 -->
+        <div class="gallery-item">
+          <img src="photo7.jpg" onclick="openLightbox(this.src)" />
+        </div>
+ 
+        <!-- صورة 8 -->
+        <div class="gallery-item">
+          <img src="photo8.jpg" onclick="openLightbox(this.src)" />
+        </div>
+ 
+        <!-- صورة 9 -->
+        <div class="gallery-item">
+          <img src="photo9.jpg" onclick="openLightbox(this.src)" />
+        </div>
+ 
+        <!-- صورة 10 -->
+        <div class="gallery-item">
+          <img src="photo10.jpg" onclick="openLightbox(this.src)" />
+        </div>
+ 
+        <!-- صورة 11 -->
+        <div class="gallery-item">
+          <img src="photo11.jpg" onclick="openLightbox(this.src)" />
+        </div>
+ 
+        <!-- صورة 12 -->
+        <div class="gallery-item">
+          <img src="photo12.jpg" onclick="openLightbox(this.src)" />
+        </div>
+ 
+        <!-- صورة 13 -->
+        <div class="gallery-item">
+          <img src="photo13.jpg" onclick="openLightbox(this.src)" />
+        </div>
+ 
+        <!-- صورة 14 -->
+        <div class="gallery-item">
+          <img src="photo14.jpg" onclick="openLightbox(this.src)" />
+        </div>
+ 
+        <!-- صورة 15 -->
+        <div class="gallery-item">
+          <img src="photo15.jpg" onclick="openLightbox(this.src)" />
+        </div>
+ 
+        <!-- صورة 16 -->
+        <div class="gallery-item">
+          <img src="photo16.jpg" onclick="openLightbox(this.src)" />
+        </div>
+ 
+        <!-- صورة 17 -->
+        <div class="gallery-item">
+          <img src="photo17.jpg" onclick="openLightbox(this.src)" />
+        </div>
+ 
+        <!-- صورة 18 -->
+        <div class="gallery-item">
+          <img src="photo18.jpg" onclick="openLightbox(this.src)" />
+        </div>
+ 
+        <!-- صورة 19 -->
+        <div class="gallery-item">
+          <img src="photo19.jpg" onclick="openLightbox(this.src)" />
+        </div>
+ 
+        <!-- صورة 20 -->
+        <div class="gallery-item">
+          <img src="photo20.jpg" onclick="openLightbox(this.src)" />
+        </div>
+ 
+      </div>
+    </div>
+
+    <!-- IDEAS -->
+    <div class="page" id="page-ideas">
+      <h2 class="page-title">✨ أفكار رومانسية</h2>
+      <div class="ideas-grid" id="ideasGrid"></div>
+    </div>
+
+    <button class="lock-again" onclick="lockSite()" title="قفل الموقع">🔒</button>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <img id="lightboxImg" src="" />
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ============================================================
+    //  ⚙️  إعدادات تقدر تعدل عليها في VS Code
+    // ============================================================
+
+    // 🔑 الباسورد — غيّره هنا
+    const DEFAULT_PASSWORD = '1912';
+
+    // 📅 تاريخ أول يوم مع بعض (YYYY-MM-DD)
+    const DEFAULT_START_DATE = '2025-07-27';
+
+   
+    let memories = [
+
+      {
+        id: 1,
+        emoji: '🌙',
+        title: 'يوم خروجنا',
+        date: '2026-06-26',
+        text: 'يوم من أجمل الأيام اللي عشناها مع بعض، كل لحظة فيه كانت حلوة بوجودك...',
+        photo: null // ← ضع رابط الصورة هنا بين '' بدل null
+      },
+
+      {
+        id: 1,
+        emoji: '🌙',
+        title: 'يوم خروجنا',
+        date: '2026-06-26',
+        text: 'يوم من أجمل الأيام اللي عشناها مع بعض، كل لحظة فيه كانت حلوة بوجودك...',
+        photo: null // ← ضع رابط الصورة هنا بين '' بدل null
+      },
+
+      // ↓ انسخ الكتلة دي وعدّل عليها عشان تضيف ذكرى جديدة
+      // {
+      //   id: 2,
+      //   emoji: '🌹',
+      //   title: 'عنوان الذكرى',
+      //   date: '2024-01-01',
+      //   text: 'وصف الذكرى...',
+      //   photo: null
+      // },
+
+    ];
+
+    // 📸 صور الجاليري — ضع روابط الصور هنا
+    // مثال: 'https://example.com/photo1.jpg'
+    let galleryPhotos = [
+      // --- أضف رابط صورة هنا ---
+      // 'https://example.com/photo1.jpg',
+      // 'https://example.com/photo2.jpg',
+    ];
+
+    // 💡 أفكار رومانسية — أضف أو عدّل براحتك
+    const ideas = [
+      { icon: '🕯️', title: 'عشاء رومانسي',    text: 'جهّز عشاء على ضوء الشموع في البيت مع موسيقى هادية' },
+      { icon: '💌', title: 'رسالة مفاجأة',     text: 'اكتب رسالة حب حقيقية وحطها في مكان مفاجأة' },
+      { icon: '🌟', title: 'ليلة تحت النجوم',  text: 'اتفرجوا على النجوم مع بعض وحكوا عن الأحلام' },
+      { icon: '📸', title: 'ألبوم ذكريات',     text: 'اطبع أجمل صوركم مع بعض وعملوا ألبوم' },
+      { icon: '🎵', title: 'أغنيتكم',          text: 'اختاروا أغنية بتكون أغنيتكم مع بعض' },
+      { icon: '🗺️', title: 'رحلة مفاجأة',     text: 'رتب رحلة صغيرة مفاجأة لمكان بتحبه هي' },
+      { icon: '💐', title: 'وردة كل أسبوع',   text: 'ابعتلها وردة كل أسبوع مع رسالة قصيرة' },
+      { icon: '🎬', title: 'فيلم خاص',        text: 'اعمل فيديو من صوركم مع بعض مع أغنية حلوة' },
+    ];
+
+    // ============================================================
+    //  كود الموقع — ما تعدلش تحت هنا إلا لو عارف
+    // ============================================================
+
+    let currentPassword = localStorage.getItem('lovePass') || DEFAULT_PASSWORD;
+    let startDate       = localStorage.getItem('loveStart') || DEFAULT_START_DATE;
+
+    // --- Stars & Hearts ---
+    const starsEl = document.getElementById('stars');
+    for (let i = 0; i < 80; i++) {
+      const s = document.createElement('div');
+      s.className = 'star';
+      const sz = Math.random() * 2.5 + 0.5;
+      s.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*4}s;animation-duration:${2+Math.random()*3}s;`;
+      starsEl.appendChild(s);
+    }
+    const hc = document.getElementById('heartsContainer');
+    ['❤️','💕','💖','💗','💝','💓'].forEach(h => {
+      for (let j = 0; j < 2; j++) {
+        const el = document.createElement('div');
+        el.className = 'float-heart'; el.textContent = h;
+        el.style.cssText = `left:${Math.random()*100}%;animation-delay:${Math.random()*8}s;animation-duration:${6+Math.random()*6}s;`;
+        hc.appendChild(el);
+      }
+    });
+
+    // --- Password ---
+    function checkPassword() {
+      const val = document.getElementById('passInput').value;
+      if (val === currentPassword) {
+        document.getElementById('lockScreen').style.display = 'none';
+        document.getElementById('mainSite').style.display = 'block';
+        document.getElementById('errorMsg').textContent = '';
+        initSite();
+      } else {
+        document.getElementById('errorMsg').textContent = '❌ الباسورد غلط! يحيوانه';
+      }
+    }
+    document.getElementById('passInput').addEventListener('keyup', e => {
+      if (e.key === 'Enter') checkPassword();
+    });
+    function lockSite() {
+      document.getElementById('mainSite').style.display = 'none';
+      document.getElementById('lockScreen').style.display = 'flex';
+      document.getElementById('passInput').value = '';
+    }
+
+    // --- Init ---
+    function initSite() {
+      const days = Math.floor((new Date() - new Date(startDate)) / (1000*60*60*24));
+      document.getElementById('daysTogether').textContent = days;
+      document.getElementById('memoriesCount').textContent = document.querySelectorAll('.memory-card').length;
+      const q = quotes[Math.floor(Math.random() * quotes.length)];
+      document.getElementById('dailyQuote').textContent  = q.text;
+      document.getElementById('quoteAuthor').textContent = q.author;
+      renderTimeline();
+
+      renderGallery();
+      renderIdeas();
+    }
+
+    function setStartDate() {
+      const d = prompt('أدخل تاريخ أول يوم مع بعض (YYYY-MM-DD):', startDate);
+      if (d && d.match(/^\d{4}-\d{2}-\d{2}$/)) {
+        startDate = d;
+        localStorage.setItem('loveStart', d);
+        document.getElementById('daysTogether').textContent =
+          Math.floor((new Date() - new Date(d)) / (1000*60*60*24));
+        showToast('✅ اتحفظ التاريخ!');
+      }
+    }
+
+    // --- Pages ---
+    function showPage(name, btn) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('page-' + name).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    // --- Memories ---
+    function renderTimeline() {
+      const sorted = [...memories].sort((a,b) => new Date(a.date) - new Date(b.date));
+      document.getElementById('timelineEl').innerHTML = sorted.length === 0
+        ? '<p style="color:rgba(255,255,255,0.3);text-align:center;padding:40px">ما في ذكريات لحد دلوقتي 💭</p>'
+        : sorted.map(m => `
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">${m.date || ''}</div>
+            <div class="timeline-card">
+              ${m.photo ? `<img class="timeline-photo" src="${m.photo}" onclick="openLightbox('${m.photo}')" />` : ''}
+              <div class="timeline-body">
+                <div class="timeline-title">${m.emoji} ${m.title}</div>
+                ${m.text ? `<div class="timeline-text">${m.text}</div>` : ''}
+              </div>
+            </div>
+          </div>
+        `).join('');
+    }
+
+    // --- Gallery ---
+    function renderGallery() {
+      const grid = document.getElementById('galleryGrid');
+      if (galleryPhotos.length === 0) {
+        grid.innerHTML = '<p style="color:rgba(255,255,255,0.3);text-align:center;padding:40px;grid-column:1/-1">ما في صور لحد دلوقتي 📷<br>أضف روابط الصور في الكود!</p>';
+        return;
+      }
+      grid.innerHTML = galleryPhotos.map((src, i) => `
+        <div class="gallery-item">
+          <img src="${src}" onclick="openLightbox('${src}')" />
+        </div>
+      `).join('');
+    }
+
+    // --- Lightbox ---
+    function openLightbox(src) {
+      document.getElementById('lightboxImg').src = src;
+      document.getElementById('lightbox').classList.add('visible');
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('visible');
+    }
+
+    // --- Ideas ---
+    function renderIdeas() {
+      document.getElementById('ideasGrid').innerHTML = ideas.map(i => `
+        <div class="idea-card">
+          <div class="idea-icon">${i.icon}</div>
+          <div class="idea-title">${i.title}</div>
+          <div class="idea-text">${i.text}</div>
+        </div>
+      `).join('');
+    }
+
+    // --- Toast ---
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2500);
+    }
+  </script>
+  <div style="text-align:center; padding: 16px; color: rgba(255, 255, 255, 0.3); font-size: 12px;">Developed by my <a href="https://ibb.co/Mjw5pVy">Heart</a>
+</div>
+</body>
+</html>
